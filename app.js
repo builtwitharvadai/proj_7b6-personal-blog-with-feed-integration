@@ -37,6 +37,8 @@ async function fetchPersonalFeed() {
       throw new Error('Personal feed data is not an array');
     }
 
+    console.log(`[App] Loaded ${data.length} items from kennys_feed.json`);
+
     // Normalize personal feed items to match feed parser format
     const normalizedItems = data.map(item => ({
       title: item.title || 'Untitled',
@@ -50,7 +52,7 @@ async function fetchPersonalFeed() {
 
     const endTime = performance.now();
     const duration = (endTime - startTime).toFixed(2);
-    console.log(`[App] Successfully loaded ${normalizedItems.length} personal posts in ${duration}ms`);
+    console.log(`[App] Successfully normalized ${normalizedItems.length} personal posts in ${duration}ms`);
 
     return {
       success: true,
@@ -95,15 +97,30 @@ async function fetchPersonalFeed() {
  */
 async function fetchAllFeeds() {
   const startTime = performance.now();
+  console.log('[App] ========================================');
   console.log('[App] Starting concurrent feed fetch operation');
   console.log('[App] Configured feeds:', Object.keys(FEED_URLS).join(', '));
+  console.log('[App] ========================================');
 
   try {
     // Fetch personal feed and external feeds in parallel
+    console.log('[App] Fetching personal feed and external feeds in parallel...');
     const [personalFeedResult, externalFeedsResults] = await Promise.all([
       fetchPersonalFeed(),
       parseMultipleFeeds(FEED_URLS)
     ]);
+
+    console.log('[App] Personal feed result:', {
+      success: personalFeedResult.success,
+      itemCount: personalFeedResult.itemCount,
+      source: personalFeedResult.feedMetadata.source
+    });
+
+    console.log('[App] External feeds results:', {
+      totalFeeds: externalFeedsResults.length,
+      successful: externalFeedsResults.filter(r => r.success).length,
+      failed: externalFeedsResults.filter(r => !r.success).length
+    });
 
     // Combine all results
     const allResults = [personalFeedResult, ...externalFeedsResults];
@@ -116,6 +133,7 @@ async function fetchAllFeeds() {
     const failureCount = allResults.filter(r => !r.success).length;
     const totalItems = allResults.reduce((sum, r) => sum + r.itemCount, 0);
 
+    console.log('[App] ========================================');
     console.log(`[App] Feed fetch completed in ${duration}ms`, {
       totalFeeds: allResults.length,
       successful: successCount,
@@ -123,6 +141,7 @@ async function fetchAllFeeds() {
       totalItems: totalItems,
       timestamp: new Date().toISOString()
     });
+    console.log('[App] ========================================');
 
     // Log individual feed results
     allResults.forEach(result => {
@@ -141,11 +160,13 @@ async function fetchAllFeeds() {
     return allResults;
 
   } catch (error) {
-    console.error('[App] Critical error during feed fetch operation:', {
+    console.error('[App] ========================================');
+    console.error('[App] CRITICAL error during feed fetch operation:', {
       error: error.message,
       stack: error.stack,
       timestamp: new Date().toISOString()
     });
+    console.error('[App] ========================================');
 
     // Return empty results with error information
     return [{
@@ -171,7 +192,9 @@ async function fetchAllFeeds() {
  * @returns {Array} Sorted array of all feed items
  */
 function aggregateFeedItems(feedResults) {
+  console.log('[App] ========================================');
   console.log('[App] Aggregating feed items from multiple sources');
+  console.log('[App] ========================================');
 
   const allItems = [];
 
@@ -194,7 +217,9 @@ function aggregateFeedItems(feedResults) {
     return dateB - dateA;
   });
 
+  console.log('[App] ========================================');
   console.log(`[App] Aggregated total of ${allItems.length} items, sorted by date`);
+  console.log('[App] ========================================');
 
   return allItems;
 }
@@ -204,13 +229,17 @@ function aggregateFeedItems(feedResults) {
  * @param {Array} items - Array of feed items to render
  */
 function renderFeeds(items) {
+  console.log('[App] ========================================');
   console.log('[App] renderFeeds called with', items.length, 'items');
+  console.log('[App] ========================================');
 
   const container = document.getElementById('blog-content');
 
   if (!container) {
+    console.error('[App] ========================================');
     console.error('[App] CRITICAL: blog-content container not found in DOM!');
     console.error('[App] Available elements with IDs:', Array.from(document.querySelectorAll('[id]')).map(el => el.id));
+    console.error('[App] ========================================');
     return;
   }
 
@@ -218,7 +247,9 @@ function renderFeeds(items) {
   console.log(`[App] Rendering ${items.length} items to blog-content container`);
 
   if (items.length === 0) {
+    console.warn('[App] ========================================');
     console.warn('[App] No items to render, showing error state');
+    console.warn('[App] ========================================');
     showErrorState(
       container,
       'No feed items available to display',
@@ -231,14 +262,18 @@ function renderFeeds(items) {
   try {
     console.log('[App] Calling renderPostCards...');
     renderPostCards(container, items, true);
+    console.log('[App] ========================================');
     console.log('[App] Successfully rendered all feed items');
     console.log('[App] Container now has', container.children.length, 'child elements');
+    console.log('[App] ========================================');
   } catch (error) {
+    console.error('[App] ========================================');
     console.error('[App] Error rendering feed items:', {
       error: error.message,
       stack: error.stack,
       itemCount: items.length
     });
+    console.error('[App] ========================================');
     showErrorState(
       container,
       'Failed to render feed items',
@@ -252,7 +287,9 @@ function renderFeeds(items) {
  * Handles feed refresh operation
  */
 async function refreshFeeds() {
+  console.log('[App] ========================================');
   console.log('[App] Manual feed refresh triggered');
+  console.log('[App] ========================================');
   await initializeApp();
 }
 
@@ -270,7 +307,9 @@ function setupAutoRefresh() {
   console.log(`[App] Setting up auto-refresh every ${refreshInterval}ms (${refreshInterval / 60000} minutes)`);
 
   setInterval(async () => {
+    console.log('[App] ========================================');
     console.log('[App] Auto-refresh triggered');
+    console.log('[App] ========================================');
     await initializeApp();
   }, refreshInterval);
 }
@@ -282,7 +321,9 @@ function setupAutoRefresh() {
 async function initializeApp() {
   const initStartTime = performance.now();
   console.log('[App] ========================================');
-  console.log('[App] Application initialization started');
+  console.log('[App] ========================================');
+  console.log('[App] APPLICATION INITIALIZATION STARTED');
+  console.log('[App] ========================================');
   console.log('[App] ========================================');
 
   // Prevent concurrent initializations
@@ -297,15 +338,19 @@ async function initializeApp() {
   const container = document.getElementById('blog-content');
 
   if (!container) {
+    console.error('[App] ========================================');
     console.error('[App] CRITICAL ERROR: blog-content container not found in DOM');
     console.error('[App] Document ready state:', document.readyState);
     console.error('[App] Body children:', document.body.children.length);
     console.error('[App] Available IDs:', Array.from(document.querySelectorAll('[id]')).map(el => el.id));
+    console.error('[App] ========================================');
     appState.isLoading = false;
     return;
   }
 
   console.log('[App] Container verified: #blog-content found');
+  console.log('[App] Container class:', container.className);
+  console.log('[App] Container tag:', container.tagName);
 
   // Show loading state
   console.log('[App] Showing loading state...');
@@ -333,20 +378,24 @@ async function initializeApp() {
     const totalDuration = (initEndTime - initStartTime).toFixed(2);
 
     console.log('[App] ========================================');
-    console.log(`[App] Application initialization completed in ${totalDuration}ms`, {
+    console.log('[App] ========================================');
+    console.log(`[App] APPLICATION INITIALIZATION COMPLETED in ${totalDuration}ms`, {
       feedCount: feedResults.length,
       itemCount: allItems.length,
       errorCount: appState.errors.length,
       timestamp: new Date().toISOString()
     });
     console.log('[App] ========================================');
+    console.log('[App] ========================================');
 
   } catch (error) {
-    console.error('[App] Critical error during initialization:', {
+    console.error('[App] ========================================');
+    console.error('[App] CRITICAL error during initialization:', {
       error: error.message,
       stack: error.stack,
       timestamp: new Date().toISOString()
     });
+    console.error('[App] ========================================');
 
     showErrorState(
       container,
@@ -366,14 +415,18 @@ async function initializeApp() {
  */
 function main() {
   console.log('[App] ========================================');
-  console.log('[App] Main function called');
+  console.log('[App] ========================================');
+  console.log('[App] MAIN FUNCTION CALLED');
   console.log('[App] Document ready state:', document.readyState);
+  console.log('[App] ========================================');
   console.log('[App] ========================================');
 
   if (document.readyState === 'loading') {
     console.log('[App] DOM not ready, waiting for DOMContentLoaded event');
     document.addEventListener('DOMContentLoaded', () => {
+      console.log('[App] ========================================');
       console.log('[App] DOMContentLoaded event fired, DOM is now ready');
+      console.log('[App] ========================================');
       initializeApp();
       setupAutoRefresh();
     });
@@ -385,6 +438,9 @@ function main() {
 }
 
 // Start the application
+console.log('[App] ========================================');
+console.log('[App] app.js module loaded, calling main()');
+console.log('[App] ========================================');
 main();
 
 // Export functions for testing and external access
