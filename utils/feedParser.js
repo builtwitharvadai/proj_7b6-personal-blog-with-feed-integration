@@ -2,14 +2,14 @@
 // Handles parsing of RSS and Atom feeds with comprehensive error handling,
 // CORS management, and data normalization for consistent rendering
 
-import Parser from 'rss-parser';
+import RssParser from 'rss-parser';
 
 /**
  * Creates and configures an RSS parser instance
- * @returns {Parser} Configured RSS parser
+ * @returns {RssParser} Configured RSS parser
  */
 function createParser() {
-  return new Parser({
+  return new RssParser({
     customFields: {
       item: [
         ['media:content', 'media:content'],
