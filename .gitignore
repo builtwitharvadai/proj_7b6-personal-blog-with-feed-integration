@@ -18,3 +18,6 @@ build/
 # Test coverage
 coverage/
 .nyc_output/
+
+# Claude CLI task files
+arvad_task_files/
