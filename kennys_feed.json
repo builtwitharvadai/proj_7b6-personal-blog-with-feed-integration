@@ -1,0 +1,44 @@
+[
+  {
+    "title": "Understanding Transformer Architectures in Modern LLMs",
+    "description": "A deep dive into how transformer architectures have revolutionized natural language processing and enabled the current generation of large language models.",
+    "link": "#post-transformer-architectures",
+    "pubDate": "2026-03-10T14:30:00Z",
+    "content": "The transformer architecture, introduced in the seminal 'Attention is All You Need' paper, has become the backbone of modern LLMs. Understanding self-attention mechanisms and positional encodings is crucial for anyone working in AI today. In this post, I explore how these components work together to create powerful language models capable of understanding context across long sequences."
+  },
+  {
+    "title": "Exploring RAG Systems: Bridging LLMs with Real-Time Data",
+    "description": "Retrieval-Augmented Generation (RAG) is transforming how we build AI applications by combining the power of LLMs with dynamic knowledge bases.",
+    "link": "#post-rag-systems",
+    "pubDate": "2026-03-05T09:15:00Z",
+    "content": "RAG systems represent a paradigm shift in how we approach AI-powered applications. By integrating vector databases with LLMs, we can provide models with up-to-date information without constant retraining. I've been experimenting with different embedding strategies and retrieval methods, and the results are fascinating. This architecture solves the knowledge cutoff problem while maintaining the reasoning capabilities of large models."
+  },
+  {
+    "title": "Fine-Tuning vs. Prompt Engineering: When to Use Each Approach",
+    "description": "An analysis of the trade-offs between fine-tuning language models and leveraging prompt engineering techniques for specific use cases.",
+    "link": "#post-finetuning-vs-prompting",
+    "pubDate": "2026-02-28T16:45:00Z",
+    "content": "As I work more with LLMs, the question of when to fine-tune versus when to rely on prompt engineering becomes increasingly nuanced. Fine-tuning offers customization and consistency, but comes with costs in time, compute, and potential overfitting. Prompt engineering is flexible and immediate, but may lack the precision needed for domain-specific tasks. I've found that the answer often lies in a hybrid approach, using prompt engineering for rapid prototyping and fine-tuning for production systems that require reliable, specialized behavior."
+  },
+  {
+    "title": "The Ethics of AI: Thoughts on Alignment and Safety Research",
+    "description": "Reflections on the importance of AI alignment research and the challenges of building safe, beneficial artificial intelligence systems.",
+    "link": "#post-ai-ethics-alignment",
+    "pubDate": "2026-02-20T11:00:00Z",
+    "content": "As AI capabilities continue to advance at an unprecedented pace, the importance of alignment research cannot be overstated. We're building systems with increasing autonomy and influence, yet we're still grappling with fundamental questions about how to ensure they behave in ways that align with human values. Organizations like Anthropic and OpenAI are making significant strides in this area with techniques like Constitutional AI and RLHF, but there's still much work to be done. The technical challenges are immense, but the ethical imperative is clear: we must prioritize safety alongside capability development."
+  },
+  {
+    "title": "Building with Claude: Lessons from API Integration",
+    "description": "Practical insights gained from integrating Claude API into production applications, including best practices and common pitfalls.",
+    "link": "#post-claude-api-integration",
+    "pubDate": "2026-02-15T13:20:00Z",
+    "content": "Working with Claude's API has been an enlightening experience. The model's strong performance on complex reasoning tasks and its emphasis on helpful, harmless, and honest outputs makes it particularly well-suited for user-facing applications. I've learned several important lessons about context management, streaming responses for better UX, and implementing effective retry logic. One key insight: treating the API as a collaborative reasoning partner rather than just a text completion engine leads to much better results. Crafting clear, structured prompts and leveraging Claude's ability to follow detailed instructions has been game-changing for my projects."
+  },
+  {
+    "title": "Multimodal AI: The Next Frontier",
+    "description": "Exploring the emerging capabilities of multimodal models that can process and generate text, images, and other data types seamlessly.",
+    "link": "#post-multimodal-ai",
+    "pubDate": "2026-02-08T10:30:00Z",
+    "content": "The recent advances in multimodal AI are opening up entirely new categories of applications. Models that can understand images, analyze charts, and reason across different data modalities are no longer science fiction. I've been particularly impressed by how these systems can handle tasks that previously required separate specialized models. From document analysis to visual question answering, the implications for practical AI applications are enormous. The challenge now is learning how to effectively prompt and interact with these more complex systems to unlock their full potential."
+  }
+]
